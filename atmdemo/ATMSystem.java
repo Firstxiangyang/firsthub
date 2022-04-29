@@ -1,5 +1,8 @@
-package com.company.atmdemo;
-/**
+package atmdemo;
+
+
+
+/*
  * 模拟ATM系统
  */
 import java.util.ArrayList;
@@ -322,3 +325,4 @@ public class ATMSystem {
         return null;  //查无此账号
     }
 }
+
