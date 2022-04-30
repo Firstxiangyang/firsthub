@@ -1,7 +1,5 @@
 package atmdemo;
 
-
-
 /*
  * 模拟ATM系统
  */
@@ -113,17 +111,91 @@ public class ATMSystem {
                     break;
                 case 5:
                     //修改密码
-                    break;
+                    updatePassword(sc,acc);
+                    return;
                 case 6:
                     //退出
                     return; //退出当前页面
                 case 7:
                     //注销账户
+                    if(deleteAccount(sc,acc,accounts)){
+                        //销户成功，回到首页
+                        return;
+                    }else{
+                        //没有销户成功
                     break;
+                    }
                 default:
                     System.out.println("您输入的命令不存在，请重新输入：");
             }
         }
+    }
+
+    /**
+     * 销户
+     * @param sc
+     * @param acc
+     * @param accounts
+     */
+    private static boolean deleteAccount(Scanner sc, Account acc, ArrayList<Account> accounts) {
+        System.out.println("===============销户===========================");
+        System.out.println("您真的要销户吗？？ Y/N");
+        String yes = sc.next();
+        switch (yes){
+            case "Y":
+                //销户
+                if (acc.getMoney() > 0){
+                    System.out.println("您的账户中还有钱，建议您取完再销户");
+
+                }else {
+                    accounts.remove(acc);
+                    System.out.println("销户完成！！");
+                    return true;
+                }
+                break;
+            default:
+                System.out.println("账户继续保留");
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * 修改用户密码
+     * @param sc
+     * @param acc
+     */
+
+    private static void updatePassword(Scanner sc, Account acc) {
+        System.out.println("===============用户密码修改===========================");
+        while (true) {
+            System.out.println("请您输入当前密码");
+            String password = sc.next();
+            if(acc.getPassword().equals(password)){
+                while (true) {
+                    //输入的密码与当前密码一样,可以进行修改密码了
+                    System.out.println("请您输入新密码~~");
+                    String newPassword = sc.next();
+
+                    System.out.println("请您再次输入密码！");
+                    String okPassword = sc.next();
+
+                    if (newPassword.equals(okPassword)){
+                        //两次密码输入一致，更新密码
+                        acc.setPassword(okPassword);
+                        System.out.println("密码修改成功~");
+                        return;
+                    }else {
+                        //两次密码不一样，重新输入
+                        System.out.println("两次密码不一致，请重新输入~~");
+                    }
+                }
+            }else {
+                //密码输入错误
+                System.out.println("您输入的密码有误，请重新输入！");
+            }
+        }
+
     }
 
     /**
